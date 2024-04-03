@@ -1,0 +1,8 @@
+prime <- function(n) {
+  if (n <= 1) {
+    return(FALSE)
+  } else if (n <= 3) {
+    return(TRUE)
+  } else if (n %% 2 == 0 || n %% 3 == 0) {
+    return(FALSE)
+  }
