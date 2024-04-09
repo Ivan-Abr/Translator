@@ -1,7 +1,6 @@
 {
-    "I1": "prime",
+    "I1": "digits",
     "I2": "n",
-    "I3": "return",
-    "I4": "FALSE",
-    "I5": "TRUE"
+    "I3": "sum",
+    "I4": "sumDigits"
 }
