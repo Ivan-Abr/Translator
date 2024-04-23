@@ -1,0 +1,1 @@
+sumDigits <- function n sum <- 0 л1 : n 0 > л2 сок sum <- sum n %% 10 n <- n + { while л1 л2 { 
