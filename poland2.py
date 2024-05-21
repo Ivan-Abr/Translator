@@ -1,65 +1,55 @@
 import json
 import re
+import tkinter
 from tkinter import *
-import tkinter.scrolledtext as st
-import re
-from tokenizer import tokenize
-
-SERVICE_WORDS = ['if', 'else', 'print', 'for', 'in', 'while', 'scan', 'function', 'c', 'paste']
-OPERATIONS = ['!', '!=', '%%', '%/% ', '*', '^', '+', '-', '<-', '/', '<', '<=', '=', '==', '>', '>=', '&', '|']
-SEPARATORS = ['\t', '\n', ' ', '(', ')', ',', ':', ';', '[', ']', '{', '}']
-
-tokens = {'W': {}, 'I': {}, 'O': {}, 'R': {}, 'N': {}, 'C': {}}
 
 CLASSES_OF_TOKENS = ['W', 'I', 'O', 'R', 'N', 'C']
 
-def is_identifier(token):
-    return re.match(r'^I\d+$', inverse_tokens[token])
 
 
 def get_priority(token):
     if token in ['(', 'for', 'if', 'while', '[', 'АЭМ', 'Ф', '{']:
         return 0
-    if token in [')', ',', ';', 'do', 'else', ']']:
+    if token in [')', ',', ':', 'else', ']']:
         return 1
-    if token == '=':
+    if token == '=' or token == '<-':
         return 2
-    if token == '||':
+    if token == '|':
         return 3
-    if token == '&&':
+    if token == '&':
         return 4
     if token == '!':
         return 5
-    if token in ['<', '<=', '!=', '=', '>', '>=']:
+    if token in ['!=', '<', '<=', '==', '>', '>=']:
         return 6
-    if token in ['+', '-', '+=', '-=', '*=', '/=']:
+    if token == '+' or token == '-':
         return 7
-    if token in ['*', '/', '%']:
+    if token in ['*', '^', '/', '%%']:
         return 8
-    if token in ['}', 'public.static.void', 'procedure', 'int', 'double', 'boolean', 'String', 'float', 'args',
-                 'return', 'System.out.println', 'main']:
+    if token in ['}', 'function','return', 'print',]:
         return 9
     return -1
 
 
-# лексемы (код-значение)
-tokens = {}
 
-# файлы, содержащие все таблицы лексем
-for token_class in CLASSES_OF_TOKENS:
-    with open('data/%s.json' % token_class, 'r') as read_file:
-        data = json.load(read_file)
-        tokens.update(data)
+def reverse():
+    # лексемы (код-значение)
+    tokens = {}
 
-# лексемы (значение-код)
-inverse_tokens = {val: key for key, val in tokens.items()}
+    # файлы, содержащие все таблицы лексем
+    for token_class in CLASSES_OF_TOKENS:
+        with open('%s.json' % token_class, 'r') as read_file:
+            data = json.load(read_file)
+            tokens.update(data)
 
+    # лексемы (значение-код)
+    inverse_tokens = {val: key for key, val in tokens.items()}
 
-def prog():
-    #LAB1
-    tokenize()
+    def is_identifier(token):
+        return re.match(r'^I\d+$', inverse_tokens[token])
+
     # файл, содержащий последовательность кодов лексем входной программы
-    f = open('data/tokens.txt', 'r')
+    f = open('tokens.txt', 'r')
     inp_seq = f.read()
     f.close()
 
@@ -73,12 +63,12 @@ def prog():
     out_seq = ''
     aem_count = proc_num = proc_level = operand_count = 1
     func_count = tag_count = proc_num = if_count = while_count = \
-                begin_count = end_count = bracket_count = 0
+                 begin_count = end_count = bracket_count = 0
     is_if = is_while = is_description_var = False
     while i < len(t):
         p = get_priority(t[i])
         if p == -1:
-            if t[i] != '\n' and t[i] != '\t':
+            if t[i] != '\n':
                 out_seq += t[i] + ' '
         else:
             if t[i] == '[':
@@ -122,8 +112,8 @@ def prog():
                         is_while = False
             elif t[i] == ',':
                 while not(re.match(r'^\d+ АЭМ$', stack[-1])) and \
-                    not(re.match(r'^\d+ Ф$', stack[-1])) and \
-                    not(re.match(r'^var', stack[-1])):
+                      not(re.match(r'^\d+ Ф$', stack[-1])) and \
+                      not(re.match(r'^var', stack[-1])):
                     out_seq += stack.pop() + ' '
                 if re.match(r'^\d+ АЭМ$', stack[-1]):
                     aem_count += 1
@@ -131,6 +121,11 @@ def prog():
                 if re.match(r'^\d+ Ф$', stack[-1]):
                     func_count += 1
                     stack.append(str(func_count) + ' Ф')
+                if re.match(r'^var', stack[-1]):
+                    operand_count += 1
+            elif t[i] == 'goto':
+                out_seq += t[i + 1] + ' БП '
+                i += 2
             elif t[i] == 'if':
                 stack.append(t[i])
                 if_count += 1
@@ -154,22 +149,23 @@ def prog():
                 j = i + 2
                 bracket_count = 1
                 a = []
-                while t[j] != ';':
-                    a.append(t[j])
-                    j += 1
-                    if t[j] == '(':
-                        bracket_count += 1
-                    elif t[j] == ')':
-                        bracket_count -= 1
+                # while t[j] != ';'
+                a.append(t[j])
                 j += 1
+                if t[j] == '(':
+                    bracket_count += 1
+                elif t[j] == ')':
+                    bracket_count -= 1
+                j += 1
+
                 b = []
-                while t[j] != ';':
-                    b.append(t[j])
-                    j += 1
-                    if t[j] == '(':
-                        bracket_count += 1
-                    elif t[j] == ')':
-                        bracket_count -= 1
+                # while t[j] != ';':
+                b.append(t[j])
+                j += 1
+                if t[j] == '(':
+                    bracket_count += 1
+                elif t[j] == ')':
+                    bracket_count -= 1
                 j += 1
                 c = []
                 while bracket_count != 0:
@@ -200,6 +196,10 @@ def prog():
                 t = t[:i] + a + [';', '\n', 'while', '('] + b + [')', '{', '\n'] + d + \
                     ['\n'] + c + [';', '\n', '}'] + t[j:]
                 i -= 1
+            elif t[i] == 'var':
+                stack.append(t[i] + ' ' + str(proc_num) + ' ' + str(proc_level))
+                operand_count = 1
+                is_description_var = True
             elif t[i] == 'sub':
                 proc_num += 1
                 stack.append('PROC ' + str(proc_num) + ' ' + str(proc_level))
@@ -244,15 +244,17 @@ def prog():
                     stack.pop()
                     out_seq += 'КП '
                 elif is_description_var:
+                    while not(re.match(r'^var', stack[-1])):
+                        out_seq += stack.pop() + ' '
                     proc_num, proc_level = re.findall('\d+', stack[-1])
                     stack.pop()
                     out_seq += str(operand_count) + ' ' + proc_num + ' ' + proc_level + \
-                            ' КО '
+                               ' КО '
                     is_description_var = False
                 elif if_count > 0 or while_count > 0:
                     while not(len(stack) > 0 and stack[-1] == '{') and \
-                        not(if_count > 0 and re.match(r'^if М\d+$', stack[-1])) and \
-                        not(while_count > 0 and re.match(r'^while М\d+ М\d+$', stack[-1])):
+                          not(if_count > 0 and re.match(r'^if М\d+$', stack[-1])) and \
+                          not(while_count > 0 and re.match(r'^while М\d+ М\d+$', stack[-1])):
                         out_seq += stack.pop() + ' '
                     if if_count > 0 and re.match(r'^if М\d+$', stack[-1]):
                         tag = re.search('М\d+', stack[-1]).group(0)
@@ -279,42 +281,50 @@ def prog():
     while len(stack) > 0:
         out_seq += stack.pop() + ' '
 
-    out_seq = out_seq.replace("System . out . println", "System.out.println")
-    out_seq = re.sub(r'(\d) Ф', r'\1Ф', out_seq)
-
-    # файл, содержащий обратную польскую запись
-    f = open('data/reverse_polish_entry.txt', 'w')
+    #файл, содержащий обратную польскую запись
+    f = open('reverse_polish_entry.txt', 'w', encoding='ANSI')
     f.write(out_seq)
     f.close()
 
-def write_txt(data):
-    with open('java.txt','w') as file:
-        file.write(data)
-
-def clicked():
-    write_txt(codetxt.get("1.0","end"))
-
-    opzstext.delete("1.0",END)
-
-    prog()
-
-    f1 = open('data/reverse_polish_entry.txt', 'r')
-    text = f1.read()
-    opzstext.insert("1.0",text)
-    f1.close()
-
-window=Tk()
-window.title("LR2")
-
-window.geometry('1100x500')
-
-codetxt=st.ScrolledText(window)
-codetxt.place(x=40,y=0,width=410,height=290)
-
-opzstext=st.ScrolledText(window)
-opzstext.place(x=600,y=80,width=500,height=140)
-
-btngo=Button(window,text="Выполнить \n преобразование",command=clicked,font=("Arial", 10))
-btngo.place(x=470,y=90,width=110,height=50)
-
-window.mainloop()
+# действие после нажатия на кнопку
+# def rpn():
+#     label4 = tkinter.Label(window, text='Обратная польская запись', font=("Arial", 10), foreground="white",background="#574f4f")
+#     label4.place(x=475, y=400, width=245, height=45)
+#     reverse()
+#     rpn_text = open('reverse_polish_entry.txt',encoding='ANSI').readlines()
+#     rpn_text = ''.join(rpn_text)
+#     textline1 = Text(window, height=10, width=95)
+#     textline1.insert(1.0, rpn_text)
+#     textline1.place(x=245, y=470)
+#
+#
+# # создание окна интерфейса
+# window = tkinter.Tk()
+# window.geometry('1300x700')
+# window.title("Reverse polish interface")
+# window.configure(bg='#6e6e6e')
+#
+# # расположение всех необходимых текстовых окошек, лэйблов
+# label2 = tkinter.Label(window, text='Программа на входном языке',font=("Arial", 10),foreground="white", background="#574f4f")
+# label2.place(x=165, y=50, width=200, height=50)
+#
+# text = open('data/R.txt',encoding='utf-8').readlines()
+# text=''.join(text)
+# textline=Text(window,height=10, width=60)
+# textline.insert(1.0,text)
+# textline.place(x=10, y=125)
+#
+# label3 = tkinter.Label(window, text='Коды лексем входной программы', font=("Arial", 10), foreground="white",
+#                        background="#574f4f")
+# label3.place(x=855, y=50, width=245, height=45)
+#
+# token_text = open('tokens.txt', encoding='utf-8').readlines()
+# token_text = ''.join(token_text)
+# textline = Text(window, height=10, width=60)
+# textline.insert(1.0, token_text)
+# textline.place(x=725, y=125)
+#
+# button = tkinter.Button(window, text='Перевести в ОПЗ', bg='#6a8bcc',command=rpn)
+# button.place(x=500, y=300, width=190, height=70)
+#
+# window.mainloop()

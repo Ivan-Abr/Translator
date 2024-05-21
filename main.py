@@ -4,7 +4,8 @@ from tkinter import *
 import tkinter.scrolledtext as st
 import re
 import tkinter as tk
-
+from tkinter import ttk
+from poland2 import reverse
 def write_txt(data):
     with open('data/R.txt','w') as file:
         file.write(data)
@@ -85,9 +86,14 @@ def clicked():
 
 
 
-window = Tk()
-window.title("LR1")
+def reversed():
+    write_txt(code2txt.get("1.0", "end"))
 
+    polandtext.delete("1.0", END)
+    f5 = open('reverse_polish_entry.txt', 'r')
+    text = f5.read()
+    polandtext.insert("1.0", text)
+    f5.close()
 
 
 
@@ -109,57 +115,81 @@ BUTTONPADDING = 40
 BUTTONWIDTH = 120
 BUTTONHEIGHT = 80
 
+
+
+window = Tk()
+window.title("LR1")
 window.geometry(f'{WIDTH}x{HEIGHT}')
 
+notebook = ttk.Notebook(window)
+notebook.pack(fill='both', expand=True)
+
+# Создаем две вкладки
+LR1 = ttk.Frame(notebook)
+LR2 = ttk.Frame(notebook)
+
+notebook.add(LR1, text='Токенизация')
+notebook.add(LR2, text='Обратная польская нотация')
 
 
-
-codetxt = st.ScrolledText(window, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+codetxt = st.ScrolledText(LR1, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
 codetxt.place(x=PADDING, y=PADDING,
               width=LWINDOWWIDTH, height=LWINDOWHEIGHT)
 
-tokenstext = st.ScrolledText(window, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+tokenstext = st.ScrolledText(LR1, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
 tokenstext.place(x=PADDING + BUTTONPADDING * 2 + LWINDOWWIDTH + BUTTONWIDTH, y=PADDING,
                  width=LWINDOWWIDTH, height=LWINDOWHEIGHT)
 
-Wlb = Label(text="Лексемы служебных слов:", font=("Cascadia Code", 12))
+Wlb = Label(LR1, text="Лексемы служебных слов:", font=("Cascadia Code", 12))
 Wlb.place(x=PADDING, y=LWINDOWHEIGHT + PADDING * 2)
-Wtext = st.ScrolledText(window, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+Wtext = st.ScrolledText(LR1, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
 Wtext.place(x=PADDING, y=LWINDOWHEIGHT + PADDING * 3,
             width=SWINDOWWIDTH, height=SWINDOWHEIGHT)
 
-Rlb = Label(text="Лексемы разделителей:", font=("Cascadia Code", 12))
+Rlb = Label(LR1, text="Лексемы разделителей:", font=("Cascadia Code", 12))
 Rlb.place(x=PADDING * 2 + SWINDOWWIDTH, y=LWINDOWHEIGHT + PADDING * 2)
-Rtext = st.ScrolledText(window, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+Rtext = st.ScrolledText(LR1, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
 Rtext.place(x=PADDING * 2 + SWINDOWWIDTH, y=LWINDOWHEIGHT + PADDING * 3,
             width=SWINDOWWIDTH, height=SWINDOWHEIGHT)
 
-Olb = Label(text="Лексемы операций:", font=("Cascadia Code", 12))
+Olb = Label(LR1, text="Лексемы операций:", font=("Cascadia Code", 12))
 Olb.place(x=PADDING * 3 + SWINDOWWIDTH * 2, y=LWINDOWHEIGHT + PADDING * 2)
-Otext = st.ScrolledText(window, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+Otext = st.ScrolledText(LR1, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
 Otext.place(x=PADDING * 3 + SWINDOWWIDTH * 2, y=LWINDOWHEIGHT + PADDING * 3,
             width=SWINDOWWIDTH, height=SWINDOWHEIGHT)
 
-Nlb = Label(text="Лексемы числовых констант:", font=("Cascadia Code", 12))
+Nlb = Label(LR1, text="Лексемы числовых констант:", font=("Cascadia Code", 12))
 Nlb.place(x=PADDING * 4 + SWINDOWWIDTH * 3, y=LWINDOWHEIGHT + PADDING * 2)
-Ntext = st.ScrolledText(window, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+Ntext = st.ScrolledText(LR1, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
 Ntext.place(x=PADDING * 4 + SWINDOWWIDTH * 3, y=LWINDOWHEIGHT + PADDING * 3,
             width=SWINDOWWIDTH, height=SWINDOWHEIGHT)
 
-Ilb = Label(text="Лексемы идентификаторов:", font=("Cascadia Code", 12))
+Ilb = Label(LR1, text="Лексемы идентификаторов:", font=("Cascadia Code", 12))
 Ilb.place(x=PADDING * 5 + SWINDOWWIDTH * 4, y=LWINDOWHEIGHT + PADDING * 2)
-Itext = st.ScrolledText(window, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+Itext = st.ScrolledText(LR1, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
 Itext.place(x=PADDING * 5 + SWINDOWWIDTH * 4, y=LWINDOWHEIGHT + PADDING * 3,
             width=SWINDOWWIDTH, height=SWINDOWHEIGHT)
 
-Clb = Label(text="Лексемы символьных констант:", font=("Cascadia Code", 12))
+Clb = Label(LR1, text="Лексемы символьных констант:", font=("Cascadia Code", 12))
 Clb.place(x=PADDING * 6 + SWINDOWWIDTH * 5, y=LWINDOWHEIGHT + PADDING * 2)
-Ctext = st.ScrolledText(window, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+Ctext = st.ScrolledText(LR1, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
 Ctext.place(x=PADDING * 6 + SWINDOWWIDTH * 5, y=LWINDOWHEIGHT + PADDING * 3,
             width=SWINDOWWIDTH, height=SWINDOWHEIGHT)
 
-btngo = Button(window, text="Выполнить \n преобразование", command=clicked, font=("Cascadia Code", 9), relief="solid", borderwidth=2)
+btngo = Button(LR1, text="Выполнить \n преобразование", command=clicked, font=("Cascadia Code", 9), relief="solid", borderwidth=2)
 btngo.place(x=PADDING * 2 + LWINDOWWIDTH, y=PADDING * 3, width=BUTTONWIDTH, height=BUTTONHEIGHT)
+
+code2txt = st.ScrolledText(LR2, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+code2txt.place(x=PADDING, y=PADDING,
+              width=LWINDOWWIDTH, height=LWINDOWHEIGHT)
+
+polandtext = st.ScrolledText(LR2, relief="solid", borderwidth=2, font=("Cascadia Code", 12))
+polandtext.place(x=PADDING + BUTTONPADDING * 2 + LWINDOWWIDTH + BUTTONWIDTH, y=PADDING,
+                 width=LWINDOWWIDTH, height=LWINDOWHEIGHT)
+
+btnpol = Button(LR2, text="Выполнить \n преобразование", command=reversed(), font=("Cascadia Code", 9), relief="solid", borderwidth=2)
+btnpol.place(x=PADDING * 2 + LWINDOWWIDTH, y=PADDING * 3, width=BUTTONWIDTH, height=BUTTONHEIGHT)
+
 
 window.mainloop()
 

@@ -1,5 +1,7 @@
 {
-    "I1": "sumDigits",
-    "I2": "n",
-    "I3": "sum"
+    "I1": "numbers",
+    "I2": "a",
+    "I3": "b",
+    "I4": "result",
+    "I5": "return"
 }

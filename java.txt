@@ -1,7 +1,4 @@
-sumDigits <- function(n) {
-  sum <- 0
-  while (n > 0) {
-    sum <- sum + (n %% 10)
-    n <- n %/% 10
-  }
-
+sum_two_numbers <- function(a, b) {
+  result <- a + b
+  return(result)
+}

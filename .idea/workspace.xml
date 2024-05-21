@@ -4,12 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd2304a5-d6b2-4f4a-967b-00ab97c6c526" name="Changes" comment="created main window">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/poland.py" afterDir="false" />
+    <list default="true" id="bd2304a5-d6b2-4f4a-967b-00ab97c6c526" name="Changes" comment="reverse_polish in process">
+      <change afterPath="$PROJECT_DIR$/data/reverse_polish_entry.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/poland2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/translator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/I.json" beforeDir="false" afterPath="$PROJECT_DIR$/I.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/N.json" beforeDir="false" afterPath="$PROJECT_DIR$/N.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/O.json" beforeDir="false" afterPath="$PROJECT_DIR$/O.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R.json" beforeDir="false" afterPath="$PROJECT_DIR$/R.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/W.json" beforeDir="false" afterPath="$PROJECT_DIR$/W.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/I.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/I.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/N.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/N.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/R.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/R.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/tokens.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/tokens.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java.txt" beforeDir="false" afterPath="$PROJECT_DIR$/java.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poland.py" beforeDir="false" afterPath="$PROJECT_DIR$/poland.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reverse_polish_entry.txt" beforeDir="false" afterPath="$PROJECT_DIR$/reverse_polish_entry.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tokens.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tokens.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,12 +53,14 @@
   "keyToString": {
     "Python.main.executor": "Run",
     "Python.poland.executor": "Run",
+    "Python.poland2.executor": "Run",
     "Python.reverse_polish.executor": "Run",
+    "Python.translator.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "E:/translator/Translator/data",
+    "last_opened_file_path": "E:/OPT/search_optimization-master/search_optimization-master",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
@@ -52,8 +68,11 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\translator\Translator\data" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\translator\Translator\data" />
+    </key>
   </component>
-  <component name="RunManager" selected="Python.poland">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Translator" />
       <option name="ENV_FILES" value="" />
@@ -98,6 +117,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="poland2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Translator" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/poland2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="reverse_polish" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Translator" />
       <option name="ENV_FILES" value="" />
@@ -120,11 +161,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="translator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Translator" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/translator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.poland2" />
+        <item itemvalue="Python.translator" />
         <item itemvalue="Python.poland" />
         <item itemvalue="Python.reverse_polish" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -160,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712655788831</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="reverse_polish in process">
+      <option name="closed" value="true" />
+      <created>1713865695615</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1713865695615</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -177,6 +250,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="created tokenize function" />
     <MESSAGE value="created main window" />
-    <option name="LAST_COMMIT_MESSAGE" value="created main window" />
+    <MESSAGE value="reverse_polish in process" />
+    <option name="LAST_COMMIT_MESSAGE" value="reverse_polish in process" />
   </component>
 </project>
